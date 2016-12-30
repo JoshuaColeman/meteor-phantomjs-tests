@@ -1,4 +1,4 @@
-const phantomjs = Npm.require('phantomjs-prebuilt');
+const phantomjs = Npm.require('phantomjs');
 const childProcess = Npm.require('child_process');
 
 const PHANTOMJS_SCRIPT_FILE_NAME = 'phantomjsScript.js';
@@ -25,7 +25,12 @@ function startPhantom({
     throw error;
   });
 
-  phantomProcess.on('exit', done);
+  phantomProcess.on('exit', (...result) => {
+    if (process.env.METEOR_PHANTOMJS_DEBUG) {
+      console.log('PhantomJS childProcess wrapper returned:', ...result);
+    }
+    done();
+  });
 
   // The PhantomJS script echoes whatever the page prints to the browser console and
   // here we echo that once again.
