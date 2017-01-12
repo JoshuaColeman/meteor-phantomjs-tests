@@ -29,7 +29,7 @@ function startPhantom({
     if (process.env.METEOR_PHANTOMJS_DEBUG) {
       console.log('PhantomJS childProcess wrapper returned:', ...result);
     }
-    done();
+    done(result[0]);
   });
 
   // The PhantomJS script echoes whatever the page prints to the browser console and
